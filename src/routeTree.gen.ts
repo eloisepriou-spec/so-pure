@@ -10,33 +10,154 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfirmationRouteImport } from './routes/confirmation'
+import { Route as JournalRouteImport } from './routes/journal'
+import { Route as PaiementRouteImport } from './routes/paiement'
+import { Route as PanierRouteImport } from './routes/panier'
+import { Route as RechercheRouteImport } from './routes/recherche'
+import { Route as CSlugRouteImport } from './routes/c.$slug'
+import { Route as MarquesIndexRouteImport } from './routes/marques.index'
+import { Route as MarquesSlugRouteImport } from './routes/marques.$slug'
+import { Route as ProduitIdRouteImport } from './routes/produit.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfirmationRoute = ConfirmationRouteImport.update({
+  id: '/confirmation',
+  path: '/confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaiementRoute = PaiementRouteImport.update({
+  id: '/paiement',
+  path: '/paiement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanierRoute = PanierRouteImport.update({
+  id: '/panier',
+  path: '/panier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RechercheRoute = RechercheRouteImport.update({
+  id: '/recherche',
+  path: '/recherche',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CSlugRoute = CSlugRouteImport.update({
+  id: '/c/$slug',
+  path: '/c/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarquesIndexRoute = MarquesIndexRouteImport.update({
+  id: '/marques/',
+  path: '/marques/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarquesSlugRoute = MarquesSlugRouteImport.update({
+  id: '/marques/$slug',
+  path: '/marques/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProduitIdRoute = ProduitIdRouteImport.update({
+  id: '/produit/$id',
+  path: '/produit/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/confirmation': typeof ConfirmationRoute
+  '/journal': typeof JournalRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
+  '/recherche': typeof RechercheRoute
+  '/c/$slug': typeof CSlugRoute
+  '/marques/$slug': typeof MarquesSlugRoute
+  '/produit/$id': typeof ProduitIdRoute
+  '/marques/': typeof MarquesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confirmation': typeof ConfirmationRoute
+  '/journal': typeof JournalRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
+  '/recherche': typeof RechercheRoute
+  '/c/$slug': typeof CSlugRoute
+  '/marques/$slug': typeof MarquesSlugRoute
+  '/produit/$id': typeof ProduitIdRoute
+  '/marques': typeof MarquesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/confirmation': typeof ConfirmationRoute
+  '/journal': typeof JournalRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
+  '/recherche': typeof RechercheRoute
+  '/c/$slug': typeof CSlugRoute
+  '/marques/$slug': typeof MarquesSlugRoute
+  '/produit/$id': typeof ProduitIdRoute
+  '/marques/': typeof MarquesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/confirmation'
+    | '/journal'
+    | '/paiement'
+    | '/panier'
+    | '/recherche'
+    | '/c/$slug'
+    | '/marques/$slug'
+    | '/produit/$id'
+    | '/marques/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/confirmation'
+    | '/journal'
+    | '/paiement'
+    | '/panier'
+    | '/recherche'
+    | '/c/$slug'
+    | '/marques/$slug'
+    | '/produit/$id'
+    | '/marques'
+  id:
+    | '__root__'
+    | '/'
+    | '/confirmation'
+    | '/journal'
+    | '/paiement'
+    | '/panier'
+    | '/recherche'
+    | '/c/$slug'
+    | '/marques/$slug'
+    | '/produit/$id'
+    | '/marques/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfirmationRoute: typeof ConfirmationRoute
+  JournalRoute: typeof JournalRoute
+  PaiementRoute: typeof PaiementRoute
+  PanierRoute: typeof PanierRoute
+  RechercheRoute: typeof RechercheRoute
+  CSlugRoute: typeof CSlugRoute
+  MarquesSlugRoute: typeof MarquesSlugRoute
+  ProduitIdRoute: typeof ProduitIdRoute
+  MarquesIndexRoute: typeof MarquesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +169,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confirmation': {
+      id: '/confirmation'
+      path: '/confirmation'
+      fullPath: '/confirmation'
+      preLoaderRoute: typeof ConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paiement': {
+      id: '/paiement'
+      path: '/paiement'
+      fullPath: '/paiement'
+      preLoaderRoute: typeof PaiementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panier': {
+      id: '/panier'
+      path: '/panier'
+      fullPath: '/panier'
+      preLoaderRoute: typeof PanierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recherche': {
+      id: '/recherche'
+      path: '/recherche'
+      fullPath: '/recherche'
+      preLoaderRoute: typeof RechercheRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/c/$slug': {
+      id: '/c/$slug'
+      path: '/c/$slug'
+      fullPath: '/c/$slug'
+      preLoaderRoute: typeof CSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marques/': {
+      id: '/marques/'
+      path: '/marques'
+      fullPath: '/marques/'
+      preLoaderRoute: typeof MarquesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marques/$slug': {
+      id: '/marques/$slug'
+      path: '/marques/$slug'
+      fullPath: '/marques/$slug'
+      preLoaderRoute: typeof MarquesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produit/$id': {
+      id: '/produit/$id'
+      path: '/produit/$id'
+      fullPath: '/produit/$id'
+      preLoaderRoute: typeof ProduitIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfirmationRoute: ConfirmationRoute,
+  JournalRoute: JournalRoute,
+  PaiementRoute: PaiementRoute,
+  PanierRoute: PanierRoute,
+  RechercheRoute: RechercheRoute,
+  CSlugRoute: CSlugRoute,
+  MarquesSlugRoute: MarquesSlugRoute,
+  ProduitIdRoute: ProduitIdRoute,
+  MarquesIndexRoute: MarquesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
