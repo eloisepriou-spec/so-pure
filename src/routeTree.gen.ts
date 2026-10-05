@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConfirmationRouteImport } from './routes/confirmation'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as PaiementRouteImport } from './routes/paiement'
+import { Route as PanierRouteImport } from './routes/panier'
 import { Route as RechercheRouteImport } from './routes/recherche'
 import { Route as CSlugRouteImport } from './routes/c.$slug'
 import { Route as MarquesIndexRouteImport } from './routes/marques.index'
@@ -22,9 +25,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfirmationRoute = ConfirmationRouteImport.update({
+  id: '/confirmation',
+  path: '/confirmation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JournalRoute = JournalRouteImport.update({
   id: '/journal',
   path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaiementRoute = PaiementRouteImport.update({
+  id: '/paiement',
+  path: '/paiement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanierRoute = PanierRouteImport.update({
+  id: '/panier',
+  path: '/panier',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RechercheRoute = RechercheRouteImport.update({
@@ -55,7 +73,10 @@ const ProduitIdRoute = ProduitIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/confirmation': typeof ConfirmationRoute
   '/journal': typeof JournalRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
   '/recherche': typeof RechercheRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
@@ -64,7 +85,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/confirmation': typeof ConfirmationRoute
   '/journal': typeof JournalRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
   '/recherche': typeof RechercheRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
@@ -74,7 +98,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/confirmation': typeof ConfirmationRoute
   '/journal': typeof JournalRoute
+  '/paiement': typeof PaiementRoute
+  '/panier': typeof PanierRoute
   '/recherche': typeof RechercheRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
@@ -85,7 +112,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/confirmation'
     | '/journal'
+    | '/paiement'
+    | '/panier'
     | '/recherche'
     | '/c/$slug'
     | '/marques/$slug'
@@ -94,7 +124,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/confirmation'
     | '/journal'
+    | '/paiement'
+    | '/panier'
     | '/recherche'
     | '/c/$slug'
     | '/marques/$slug'
@@ -103,7 +136,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/confirmation'
     | '/journal'
+    | '/paiement'
+    | '/panier'
     | '/recherche'
     | '/c/$slug'
     | '/marques/$slug'
@@ -113,7 +149,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConfirmationRoute: typeof ConfirmationRoute
   JournalRoute: typeof JournalRoute
+  PaiementRoute: typeof PaiementRoute
+  PanierRoute: typeof PanierRoute
   RechercheRoute: typeof RechercheRoute
   CSlugRoute: typeof CSlugRoute
   MarquesSlugRoute: typeof MarquesSlugRoute
@@ -130,11 +169,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/confirmation': {
+      id: '/confirmation'
+      path: '/confirmation'
+      fullPath: '/confirmation'
+      preLoaderRoute: typeof ConfirmationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journal': {
       id: '/journal'
       path: '/journal'
       fullPath: '/journal'
       preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paiement': {
+      id: '/paiement'
+      path: '/paiement'
+      fullPath: '/paiement'
+      preLoaderRoute: typeof PaiementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panier': {
+      id: '/panier'
+      path: '/panier'
+      fullPath: '/panier'
+      preLoaderRoute: typeof PanierRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recherche': {
@@ -177,7 +237,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConfirmationRoute: ConfirmationRoute,
   JournalRoute: JournalRoute,
+  PaiementRoute: PaiementRoute,
+  PanierRoute: PanierRoute,
   RechercheRoute: RechercheRoute,
   CSlugRoute: CSlugRoute,
   MarquesSlugRoute: MarquesSlugRoute,
