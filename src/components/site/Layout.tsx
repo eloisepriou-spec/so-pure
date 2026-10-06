@@ -46,7 +46,7 @@ function CartIcons() {
   );
 }
 
-export function Header({ minimal = false }: { minimal?: boolean }) {
+export function Header({ minimal = false }: { minimal?: boolean | undefined }) {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
   return (
@@ -166,7 +166,7 @@ export function Footer() {
   );
 }
 
-export function PageShell({ children, minimal }: { children: ReactNode; minimal?: boolean }) {
+export function PageShell({ children, minimal }: { children: ReactNode; minimal?: boolean | undefined }) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header minimal={minimal} />

@@ -6,7 +6,7 @@ export type Order = {
   date: string;
   email: string;
   method: string;
-  cardLast4?: string;
+  cardLast4?: string | undefined;
   subtotal: number;
   discount: number;
   shipping: number;
