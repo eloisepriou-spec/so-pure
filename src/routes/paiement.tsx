@@ -117,7 +117,7 @@ function CheckoutPage() {
                   ["Colissimo Domicile", "Livraison sans signature sous 48h. Emballage kraft biodégradable."],
                   ["Point Relais Express", "Mondial Relay & Relais Colis. Retrait sous 48-72h près de chez vous."],
                 ].map(([t, d]) => (
-                  <button type="button" key={t} onClick={() => setDelivery(t)} className={`rounded-xl border p-4 text-left ${delivery === t ? "border-foreground ring-1 ring-foreground" : ""}`}>
+                  <button type="button" key={t} onClick={() => setDelivery(t!)} className={`rounded-xl border p-4 text-left ${delivery === t ? "border-foreground ring-1 ring-foreground" : ""}`}>
                     <div className="flex justify-between text-sm font-semibold"><span>{t}</span><span className="micro-label">{shipping ? formatPrice(shipping) : "Offert"}</span></div>
                     <p className="mt-2 text-xs text-muted-foreground">{d}</p>
                   </button>
