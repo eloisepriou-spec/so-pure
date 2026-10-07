@@ -4,19 +4,20 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Crumbs, PageShell } from "@/components/site/Layout";
 import { NeedBadge, ProductCard } from "@/components/site/ProductCard";
-import { brandOf, formatPrice, needSlug, productById, PRODUCTS } from "@/lib/catalog";
+import { brandOf, catalogQuery, formatPrice, useCatalog } from "@/lib/catalog";
 import { linePrice, useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/produit/$id")({
-  loader: ({ params }) => {
-    const p = productById(params.id);
+  loader: async ({ params, context }) => {
+    const c = await context.queryClient.ensureQueryData(catalogQuery);
+    const p = c.products.find((x) => x.id === params.id);
     if (!p) throw notFound();
-    return p;
+    return { ...p, brandName: brandOf(c, p).name };
   },
   head: ({ loaderData: p }) => ({
     meta: p
       ? [
-          { title: `${p.name} — ${brandOf(p).name} | So Pure` },
+          { title: `${p.name} — ${p.brandName} | So Pure` },
           { name: "description", content: p.description },
           { property: "og:title", content: `${p.name} — So Pure` },
           { property: "og:description", content: p.description },
@@ -49,18 +50,19 @@ function Accordion({ title, children, open: initial = false }: { title: string; 
 
 function ProductPage() {
   const p = Route.useLoaderData();
-  const brand = brandOf(p);
-  const gallery = p.gallery ?? [p.image];
+  const catalog = useCatalog();
+  const brand = brandOf(catalog, p);
+  const gallery = p.gallery.length ? p.gallery : [p.image];
   const [img, setImg] = useState(0);
   const [months, setMonths] = useState<1 | 3>(1);
   const [qty, setQty] = useState(1);
   const { add } = useCart();
-  const pairings = PRODUCTS.filter((x) => x.id !== p.id && x.need !== p.need).slice(0, 3);
+  const pairings = catalog.products.filter((x) => x.id !== p.id && x.need !== p.need).slice(0, 3);
 
   return (
     <PageShell>
       <div className="container-page py-8" key={p.id}>
-        <Crumbs items={[{ label: p.need, to: "/c/$slug", params: { slug: needSlug(p.need) } }, { label: p.name }]} />
+        <Crumbs items={[{ label: p.need, to: "/c/$slug", params: { slug: p.needSlug } }, { label: p.name }]} />
 
         <div className="mt-8 grid gap-12 lg:grid-cols-2">
           <div>
@@ -168,8 +170,7 @@ function ProductPage() {
 
             <div className="mt-8 space-y-3">
               <Accordion title="Composition & ingrédients clés" open>
-                <p>{p.tagline}.</p>
-                <p><strong className="text-foreground">Formule garantie :</strong> sans stéarate de magnésium, sans dioxyde de titane, sans nanoparticules, sans lactose et sans gluten.</p>
+                <p>{p.composition}</p>
               </Accordion>
               <Accordion title="Conseils d'utilisation & posologie">
                 <p><strong className="text-foreground">Posologie recommandée :</strong> 2 prises par jour avec un verre d'eau, de préférence au cours du dîner.</p>

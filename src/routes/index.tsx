@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/Layout";
 import { ProductCard, SectionHead } from "@/components/site/ProductCard";
-import { BRANDS, JOURNAL, PRODUCTS } from "@/lib/catalog";
+import { JOURNAL, useCatalog } from "@/lib/catalog";
 import { IMG } from "@/lib/images";
 
 export const Route = createFileRoute("/")({
@@ -29,6 +29,7 @@ const NEED_CARDS = [
 ];
 
 function Index() {
+  const { products: PRODUCTS, brands: BRANDS } = useCatalog();
   return (
     <PageShell>
       <section className="relative flex h-[520px] items-center justify-center overflow-hidden">

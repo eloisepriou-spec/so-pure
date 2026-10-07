@@ -1,11 +1,12 @@
 import { SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
-import { BRANDS, type Product } from "@/lib/catalog";
+import { useCatalog, type Product } from "@/lib/catalog";
 import { ProductCard } from "./ProductCard";
 
 const FORMS = ["Gélules végétales", "Poudres", "Extraits liquides"] as const;
 
 export function FilteredGrid({ products, showBadge }: { products: Product[]; showBadge: boolean }) {
+  const { brands: BRANDS } = useCatalog();
   const [brands, setBrands] = useState<string[]>([]);
   const [forms, setForms] = useState<string[]>([]);
   const [max, setMax] = useState(80);

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { Crumbs, PageShell } from "@/components/site/Layout";
 import { FilteredGrid } from "@/components/site/Listing";
-import { brandOf, PRODUCTS } from "@/lib/catalog";
+import { brandOf, useCatalog } from "@/lib/catalog";
 
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
@@ -22,8 +22,10 @@ export const Route = createFileRoute("/recherche")({
 function SearchPage() {
   const { q } = Route.useSearch();
   const n = norm(q);
+  const cat = useCatalog();
+  const PRODUCTS = cat.products;
   const results = PRODUCTS.filter((p) =>
-    norm([p.name, brandOf(p).name, p.need, p.tagline].join(" ")).includes(n),
+    norm([p.name, brandOf(cat, p).name, p.need, p.tagline].join(" ")).includes(n),
   );
   return (
     <PageShell>

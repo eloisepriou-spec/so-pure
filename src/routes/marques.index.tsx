@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Crumbs, PageShell } from "@/components/site/Layout";
-import { BRANDS, PRODUCTS } from "@/lib/catalog";
+import { useCatalog } from "@/lib/catalog";
 
 export const Route = createFileRoute("/marques/")({
   head: () => ({
@@ -15,6 +15,7 @@ export const Route = createFileRoute("/marques/")({
 });
 
 function BrandsPage() {
+  const { brands: BRANDS, products: PRODUCTS } = useCatalog();
   return (
     <PageShell>
       <div className="container-page py-10">

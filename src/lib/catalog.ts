@@ -1,6 +1,6 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getCatalog } from "./catalog.functions";
-import { IMG, imageFor } from "./images";
+import { imageFor } from "./images";
 
 export type Need = "Sommeil" | "Digestion" | "Énergie" | "Santé Féminine" | "Longévité";
 export type Form = "Gélules végétales" | "Poudres" | "Extraits liquides";
@@ -34,6 +34,8 @@ export const catalogQuery = queryOptions({
     };
   },
 });
+
+export const useCatalog = () => useSuspenseQuery(catalogQuery).data;
 
 export const brandOf = (c: Catalog, p: Product): Brand =>
   c.brands.find((b) => b.slug === p.brand) ?? { slug: p.brand, name: p.brand, region: "", description: "" };

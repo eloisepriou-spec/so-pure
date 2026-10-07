@@ -2,11 +2,11 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { BadgeCheck } from "lucide-react";
 import { Crumbs, PageShell } from "@/components/site/Layout";
 import { FilteredGrid } from "@/components/site/Listing";
-import { getListing } from "@/lib/catalog";
+import { catalogQuery, getListing } from "@/lib/catalog";
 
 export const Route = createFileRoute("/c/$slug")({
-  loader: ({ params }) => {
-    const l = getListing(params.slug);
+  loader: async ({ params, context }) => {
+    const l = getListing(await context.queryClient.ensureQueryData(catalogQuery), params.slug);
     if (!l) throw notFound();
     return l;
   },
