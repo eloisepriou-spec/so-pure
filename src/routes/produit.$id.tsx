@@ -173,8 +173,11 @@ function ProductPage() {
                 <p>{p.composition}</p>
               </Accordion>
               <Accordion title="Conseils d'utilisation & posologie">
-                <p><strong className="text-foreground">Posologie recommandée :</strong> 2 prises par jour avec un verre d'eau, de préférence au cours du dîner.</p>
-                <p><strong className="text-foreground">Durée du protocole :</strong> cure recommandée de 30 à 90 jours consécutifs.</p>
+                <p>{p.dosage}</p>
+              </Accordion>
+              <Accordion title={`La marque : ${brand.name}`}>
+                <p>{brand.description}</p>
+                <Link to="/marques/$slug" params={{ slug: brand.slug }} className="font-semibold text-foreground underline">Voir toutes les créations {brand.name}</Link>
               </Accordion>
               <Accordion title="Engagements & certifications">
                 <p>• 100% fabrication française, formulé et conditionné en {brand.region}.</p>
