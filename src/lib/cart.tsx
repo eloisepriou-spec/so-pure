@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { productById, type Product } from "./catalog";
+import { useQuery } from "@tanstack/react-query";
+import { catalogQuery, type Product } from "./catalog";
 
 export type CartLine = { id: string; qty: number; months: 1 | 3 };
 export type CartItem = CartLine & { product: Product; unitPrice: number };
@@ -23,6 +24,7 @@ export const linePrice = (p: Product, months: 1 | 3) =>
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const { data: catalog } = useQuery(catalogQuery);
 
   useEffect(() => {
     try {
@@ -39,7 +41,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CartCtx>(() => {
     const items = lines
       .map((l) => {
-        const product = productById(l.id);
+        const product = catalog?.products.find((p) => p.id === l.id);
         return product ? { ...l, product, unitPrice: linePrice(product, l.months) } : null;
       })
       .filter(Boolean) as CartItem[];
@@ -62,7 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       remove: (id, months) => setLines((ls) => ls.filter((l) => !(l.id === id && l.months === months))),
       clear: () => setLines([]),
     };
-  }, [lines]);
+  }, [lines, catalog]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

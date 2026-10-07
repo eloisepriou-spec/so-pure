@@ -14,7 +14,129 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      brands: {
+        Row: {
+          created_at: string
+          description: string
+          name: string
+          region: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          name: string
+          region?: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          name?: string
+          region?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          intro: string
+          name: string
+          position: number
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          intro?: string
+          name: string
+          position?: number
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          intro?: string
+          name?: string
+          position?: number
+          slug?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          best_seller: boolean
+          brand_slug: string
+          category_slug: string
+          composition: string
+          created_at: string
+          description: string
+          dosage: string
+          form: string
+          gallery_keys: string[]
+          id: string
+          image_key: string
+          is_new: boolean
+          name: string
+          price: number
+          rating: number
+          reviews: number
+          tagline: string
+        }
+        Insert: {
+          best_seller?: boolean
+          brand_slug: string
+          category_slug: string
+          composition?: string
+          created_at?: string
+          description?: string
+          dosage?: string
+          form: string
+          gallery_keys?: string[]
+          id: string
+          image_key: string
+          is_new?: boolean
+          name: string
+          price: number
+          rating?: number
+          reviews?: number
+          tagline?: string
+        }
+        Update: {
+          best_seller?: boolean
+          brand_slug?: string
+          category_slug?: string
+          composition?: string
+          created_at?: string
+          description?: string
+          dosage?: string
+          form?: string
+          gallery_keys?: string[]
+          id?: string
+          image_key?: string
+          is_new?: boolean
+          name?: string
+          price?: number
+          rating?: number
+          reviews?: number
+          tagline?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_slug_fkey"
+            columns: ["brand_slug"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "products_category_slug_fkey"
+            columns: ["category_slug"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

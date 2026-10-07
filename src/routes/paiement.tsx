@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Check, CreditCard, Lock, ShieldCheck } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { PageShell } from "@/components/site/Layout";
-import { brandOf, formatPrice } from "@/lib/catalog";
+import { brandOf, formatPrice, useCatalog } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 import { PROMO_KEY, saveOrder, shippingFor } from "@/lib/order";
 
@@ -46,6 +46,7 @@ function Block({ n, title, aside, children }: { n: string; title: string; aside?
 function CheckoutPage() {
   const { items, count, subtotal, clear } = useCart();
   const navigate = useNavigate();
+  const catalog = useCatalog();
   const [promo, setPromo] = useState(false);
   const [delivery, setDelivery] = useState("Colissimo Domicile");
   const [method, setMethod] = useState("Carte bancaire");
@@ -87,7 +88,7 @@ function CheckoutPage() {
               method,
               cardLast4: method === "Carte bancaire" ? card.replace(/\D/g, "").slice(-4) : undefined,
               subtotal, discount, shipping, total,
-              lines: items.map((i) => ({ id: i.id, name: i.product.name, brand: brandOf(i.product).name, image: i.product.image, qty: i.qty, months: i.months, price: i.unitPrice })),
+              lines: items.map((i) => ({ id: i.id, name: i.product.name, brand: brandOf(catalog, i.product).name, image: i.product.image, qty: i.qty, months: i.months, price: i.unitPrice })),
             });
             sessionStorage.removeItem(PROMO_KEY);
             clear();
@@ -174,7 +175,7 @@ function CheckoutPage() {
                   </div>
                   <div className="flex-1 text-sm">
                     <div className="font-medium leading-snug">{i.product.name}</div>
-                    <div className="micro-label text-muted-foreground">{brandOf(i.product).name}</div>
+                    <div className="micro-label text-muted-foreground">{brandOf(catalog, i.product).name}</div>
                   </div>
                   <span className="text-sm">{formatPrice(i.qty * i.unitPrice)}</span>
                 </li>

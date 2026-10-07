@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
-import { brandOf, formatPrice, type Product } from "@/lib/catalog";
+import { brandOf, useCatalog, formatPrice, type Product } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 
 export function NeedBadge({ need }: { need: string }) {
@@ -14,7 +14,7 @@ export function NeedBadge({ need }: { need: string }) {
 
 export function ProductCard({ product, showBadge }: { product: Product; showBadge: boolean }) {
   const { add } = useCart();
-  const brand = brandOf(product);
+  const brand = brandOf(useCatalog(), product);
   return (
     <article className="group flex flex-col justify-between rounded-xl border bg-card p-4 transition-shadow hover:shadow-md">
       <Link to="/produit/$id" params={{ id: product.id }} className="block">

@@ -2,11 +2,11 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Crumbs, PageShell } from "@/components/site/Layout";
 import { ProductCard } from "@/components/site/ProductCard";
-import { BRANDS, PRODUCTS } from "@/lib/catalog";
+import { catalogQuery, useCatalog } from "@/lib/catalog";
 
 export const Route = createFileRoute("/marques/$slug")({
-  loader: ({ params }) => {
-    const b = BRANDS.find((x) => x.slug === params.slug);
+  loader: async ({ params, context }) => {
+    const b = (await context.queryClient.ensureQueryData(catalogQuery)).brands.find((x) => x.slug === params.slug);
     if (!b) throw notFound();
     return b;
   },
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/marques/$slug")({
 
 function BrandPage() {
   const b = Route.useLoaderData();
-  const products = PRODUCTS.filter((p) => p.brand === b.slug);
+  const products = useCatalog().products.filter((p) => p.brand === b.slug);
   const needs = Array.from(new Set(products.map((p) => p.need)));
   const [filter, setFilter] = useState<string | null>(null);
   const list = filter ? products.filter((p) => p.need === filter) : products;

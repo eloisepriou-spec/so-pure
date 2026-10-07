@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Flag, Leaf, Lock, Minus, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Crumbs, PageShell } from "@/components/site/Layout";
-import { BRANDS, formatPrice } from "@/lib/catalog";
+import { formatPrice, useCatalog } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 import { PROMO, PROMO_KEY, shippingFor } from "@/lib/order";
 
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/panier")({
 
 function CartPage() {
   const { items, count, subtotal, setQty, remove } = useCart();
+  const { brands: BRANDS } = useCatalog();
   const [code, setCode] = useState("");
   const [promo, setPromo] = useState(false);
   const [err, setErr] = useState("");
