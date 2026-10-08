@@ -12,4 +12,5 @@
 ## Architecture rules
 - Catalog (categories, brands, products) lives in Supabase tables, read via the public `getCatalog` server fn and `catalogQuery`; pages read it with `useCatalog()`. Why: one source of truth, editable without code.
 - Product images are stored as `image_key` in the DB and resolved by `imageFor()` in `src/lib/images.ts`. Why: images ship as bundled assets.
+- Product and gallery keys resolve through a dedicated inspected asset map, separate from editorial/category imagery. Why: catalog imagery can be corrected consistently without altering product records.
 - Cart is client-side (localStorage) in `CartProvider`. Why: no accounts yet.

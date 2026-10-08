@@ -28,4 +28,22 @@ export const IMG = {
   "aubepine": "https://lh3.googleusercontent.com/aida-public/AB6AXuA11bjfvn_0xqudBjmWIr2X2I5LYwDO2ITszW8vgiivJs0AzGmNaU3uhZe6d7rayoG4DSYib0Q-IZj92GO5hbi5cklz2sAI5L7nbWrH7_7Sz0h19LVCM5enXJ9KaUTKHpBncIUN0qzkC52LKiHlR-02rA_w1VVbR1D5aj0UyMvbp2jcn3PynpKIDu306doGyz6bhok0p-I5cSV5Xd734ThzLzkyRGHTjH-mp7RYphIfrkIIMLyiXRQ"
 }
 
-export const imageFor = (key: string): string => (IMG as Record<string, string>)[key] ?? IMG.magnesium;
+// Product and gallery keys always resolve to inspected, text-free packaging.
+const PRODUCT_IMAGES: Record<string, string> = {
+  sommeilProfond: sommeilProfondImg,
+  reishi: sommeilProfondImg,
+  probiotiques: probiotiquesImg,
+  omega: probiotiquesImg,
+  magnesium: magnesiumImg,
+  ashwagandha: sommeilProfondImg,
+  magGallery1: magnesiumImg,
+  magGallery2: sommeilProfondImg,
+  magGallery3: probiotiquesImg,
+  magGallery4: magnesiumImg,
+  ashwaDropper: sommeilProfondImg,
+  omegaJar: probiotiquesImg,
+  melisse: sommeilProfondImg,
+  aubepine: sommeilProfondImg,
+};
+
+export const imageFor = (key: string): string => PRODUCT_IMAGES[key] ?? IMG.magnesium;

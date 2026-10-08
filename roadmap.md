@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Replace problematic product imagery with text-free neutral packaging and remove pregnancy from digestion imagery
 - [x] Build So Pure storefront from design files (home, needs, product, brands, journal, cart, checkout, confirmation)
 - [x] Connect Supabase project "So Pure Project" (already connected)
 - [x] Replace broken photos with generated ones
