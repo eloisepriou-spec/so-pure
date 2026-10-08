@@ -14,8 +14,6 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "So Pure — Le meilleur des compléments, sélectionné pour vous" },
       { property: "og:description", content: "Une sélection rigoureuse de compléments bio et made in France." },
-      { property: "og:image", content: IMG.hero },
-      { name: "twitter:image", content: IMG.hero },
     ],
   }),
   component: Index,
