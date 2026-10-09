@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { PageShell } from "@/components/site/Layout";
 import { brandOf, formatPrice, useCatalog } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
-import { PROMO_KEY, saveOrder, shippingFor } from "@/lib/order";
+import { PROMO_KEY, recordOrder, saveOrder, shippingFor } from "@/lib/order";
 
 export const Route = createFileRoute("/paiement")({
   head: () => ({
@@ -78,10 +78,10 @@ function CheckoutPage() {
 
         <form
           className="mt-8 grid gap-8 lg:grid-cols-[1fr_400px]"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const fd = new FormData(e.currentTarget);
-            saveOrder({
+            const order = {
               ref: `SP-2026-${Math.floor(10000 + Math.random() * 89999)}`,
               date: new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
               email: String(fd.get("email")),
@@ -89,7 +89,9 @@ function CheckoutPage() {
               cardLast4: method === "Carte bancaire" ? card.replace(/\D/g, "").slice(-4) : undefined,
               subtotal, discount, shipping, total,
               lines: items.map((i) => ({ id: i.id, name: i.product.name, brand: brandOf(catalog, i.product).name, image: i.product.image, qty: i.qty, months: i.months, price: i.unitPrice })),
-            });
+            };
+            saveOrder(order);
+            await recordOrder(order);
             sessionStorage.removeItem(PROMO_KEY);
             clear();
             navigate({ to: "/confirmation" });

@@ -14,3 +14,5 @@
 - Product images are stored as `image_key` in the DB and resolved by `imageFor()` in `src/lib/images.ts`. Why: images ship as bundled assets.
 - Product and gallery keys resolve through a dedicated inspected asset map, separate from editorial/category imagery. Why: catalog imagery can be corrected consistently without altering product records.
 - Cart is client-side (localStorage) in `CartProvider`. Why: no accounts yet.
+- Auth uses Supabase Auth directly (external project); account routes live under `src/routes/_authenticated/` whose client-only gate redirects to `/login`. Why: user requirement, session lives in localStorage.
+- Orders of signed-in customers are inserted client-side into `orders` (RLS own-rows) via `recordOrder`. Why: history without a payment backend yet.

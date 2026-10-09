@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, Search, ShoppingBag, User } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useCart } from "@/lib/cart";
+import { useSession } from "@/lib/auth";
 
 const MENU: { label: string; to: string; params?: Record<string, string> }[] = [
   { label: "Nouveautés", to: "/c/$slug", params: { slug: "nouveautes" } },
@@ -24,14 +25,21 @@ export function Logo() {
 
 function CartIcons() {
   const { count } = useCart();
+  const { user } = useSession();
   return (
     <div className="flex items-center gap-2">
       <button aria-label="Favoris" className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted">
         <Heart className="h-5 w-5" />
       </button>
-      <button aria-label="Mon compte" className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted">
+      <Link
+        to={user ? "/compte" : "/login"}
+        aria-label={user ? "Mon compte" : "Se connecter"}
+        title={user ? "Mon compte" : "Se connecter"}
+        className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted"
+      >
         <User className="h-5 w-5" />
-      </button>
+        {user && <span className="absolute bottom-1.5 right-1.5 h-2 w-2 rounded-full bg-secondary ring-2 ring-background" />}
+      </Link>
       <Link
         to="/panier"
         aria-label={`Panier (${count} articles)`}

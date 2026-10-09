@@ -1,9 +1,5 @@
 # Roadmap
-- [x] Replace problematic product imagery with text-free neutral packaging and remove pregnancy from digestion imagery
-- [x] Build So Pure storefront from design files (home, needs, product, brands, journal, cart, checkout, confirmation)
-- [x] Connect Supabase project "So Pure Project" (already connected)
-- [x] Replace broken photos with generated ones
-- [x] Store products, brands, categories in database tables and load the site from them
-- [x] Verify home, listing, product page (magnésium) read from database; black/sage palette, no purple
+- [x] Build So Pure storefront, catalog in database, neutral imagery
+- [x] Customer accounts: email signup with verification, Google sign-in, password reset, /compte with order history (protected, redirects to /login)
+- [ ] Google sign-in: enable Google provider in Supabase dashboard (user action)
 - [ ] Stripe Connect payments (checkout is a demo for now)
-- [ ] Customer account (login, order history)
