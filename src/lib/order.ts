@@ -26,3 +26,24 @@ export const loadOrder = (): Order | null => {
 };
 
 export const PROMO_KEY = "sopure-promo";
+
+/** Persist the order to the signed-in customer's history (no-op when signed out). */
+export async function recordOrder(o: Order) {
+  try {
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return;
+    await supabase.from("orders").insert({
+      user_id: data.user.id,
+      ref: o.ref,
+      method: o.method,
+      subtotal: o.subtotal,
+      discount: o.discount,
+      shipping: o.shipping,
+      total: o.total,
+      lines: o.lines.map(({ image: _i, ...l }) => l),
+    });
+  } catch (e) {
+    console.error("recordOrder", e);
+  }
+}

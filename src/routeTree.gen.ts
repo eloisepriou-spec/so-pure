@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as ConfirmationRouteImport } from './routes/confirmation'
+import { Route as InscriptionRouteImport } from './routes/inscription'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
 import { Route as PaiementRouteImport } from './routes/paiement'
 import { Route as PanierRouteImport } from './routes/panier'
 import { Route as RechercheRouteImport } from './routes/recherche'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedCompteRouteImport } from './routes/_authenticated/compte'
 import { Route as CSlugRouteImport } from './routes/c.$slug'
 import { Route as MarquesIndexRouteImport } from './routes/marques.index'
 import { Route as MarquesSlugRouteImport } from './routes/marques.$slug'
@@ -25,14 +31,33 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConfirmationRoute = ConfirmationRouteImport.update({
   id: '/confirmation',
   path: '/confirmation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InscriptionRoute = InscriptionRouteImport.update({
+  id: '/inscription',
+  path: '/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JournalRoute = JournalRouteImport.update({
   id: '/journal',
   path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotDePasseOublieRoute = MotDePasseOublieRouteImport.update({
+  id: '/mot-de-passe-oublie',
+  path: '/mot-de-passe-oublie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PaiementRoute = PaiementRouteImport.update({
@@ -49,6 +74,16 @@ const RechercheRoute = RechercheRouteImport.update({
   id: '/recherche',
   path: '/recherche',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCompteRoute = AuthenticatedCompteRouteImport.update({
+  id: '/compte',
+  path: '/compte',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const CSlugRoute = CSlugRouteImport.update({
   id: '/c/$slug',
@@ -74,10 +109,15 @@ const ProduitIdRoute = ProduitIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/confirmation': typeof ConfirmationRoute
+  '/inscription': typeof InscriptionRoute
   '/journal': typeof JournalRoute
+  '/login': typeof LoginRoute
+  '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/paiement': typeof PaiementRoute
   '/panier': typeof PanierRoute
   '/recherche': typeof RechercheRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/compte': typeof AuthenticatedCompteRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
   '/produit/$id': typeof ProduitIdRoute
@@ -86,10 +126,15 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/confirmation': typeof ConfirmationRoute
+  '/inscription': typeof InscriptionRoute
   '/journal': typeof JournalRoute
+  '/login': typeof LoginRoute
+  '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/paiement': typeof PaiementRoute
   '/panier': typeof PanierRoute
   '/recherche': typeof RechercheRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/compte': typeof AuthenticatedCompteRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
   '/produit/$id': typeof ProduitIdRoute
@@ -98,11 +143,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/confirmation': typeof ConfirmationRoute
+  '/inscription': typeof InscriptionRoute
   '/journal': typeof JournalRoute
+  '/login': typeof LoginRoute
+  '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/paiement': typeof PaiementRoute
   '/panier': typeof PanierRoute
   '/recherche': typeof RechercheRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/compte': typeof AuthenticatedCompteRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
   '/produit/$id': typeof ProduitIdRoute
@@ -113,10 +164,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/confirmation'
+    | '/inscription'
     | '/journal'
+    | '/login'
+    | '/mot-de-passe-oublie'
     | '/paiement'
     | '/panier'
     | '/recherche'
+    | '/reset-password'
+    | '/compte'
     | '/c/$slug'
     | '/marques/$slug'
     | '/produit/$id'
@@ -125,10 +181,15 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/confirmation'
+    | '/inscription'
     | '/journal'
+    | '/login'
+    | '/mot-de-passe-oublie'
     | '/paiement'
     | '/panier'
     | '/recherche'
+    | '/reset-password'
+    | '/compte'
     | '/c/$slug'
     | '/marques/$slug'
     | '/produit/$id'
@@ -136,11 +197,17 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/confirmation'
+    | '/inscription'
     | '/journal'
+    | '/login'
+    | '/mot-de-passe-oublie'
     | '/paiement'
     | '/panier'
     | '/recherche'
+    | '/reset-password'
+    | '/_authenticated/compte'
     | '/c/$slug'
     | '/marques/$slug'
     | '/produit/$id'
@@ -149,11 +216,16 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ConfirmationRoute: typeof ConfirmationRoute
+  InscriptionRoute: typeof InscriptionRoute
   JournalRoute: typeof JournalRoute
+  LoginRoute: typeof LoginRoute
+  MotDePasseOublieRoute: typeof MotDePasseOublieRoute
   PaiementRoute: typeof PaiementRoute
   PanierRoute: typeof PanierRoute
   RechercheRoute: typeof RechercheRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   CSlugRoute: typeof CSlugRoute
   MarquesSlugRoute: typeof MarquesSlugRoute
   ProduitIdRoute: typeof ProduitIdRoute
@@ -169,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/confirmation': {
       id: '/confirmation'
       path: '/confirmation'
@@ -176,11 +255,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConfirmationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inscription': {
+      id: '/inscription'
+      path: '/inscription'
+      fullPath: '/inscription'
+      preLoaderRoute: typeof InscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journal': {
       id: '/journal'
       path: '/journal'
       fullPath: '/journal'
       preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mot-de-passe-oublie': {
+      id: '/mot-de-passe-oublie'
+      path: '/mot-de-passe-oublie'
+      fullPath: '/mot-de-passe-oublie'
+      preLoaderRoute: typeof MotDePasseOublieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/paiement': {
@@ -203,6 +303,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/recherche'
       preLoaderRoute: typeof RechercheRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/compte': {
+      id: '/_authenticated/compte'
+      path: '/compte'
+      fullPath: '/compte'
+      preLoaderRoute: typeof AuthenticatedCompteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/c/$slug': {
       id: '/c/$slug'
@@ -235,13 +349,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCompteRoute: typeof AuthenticatedCompteRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCompteRoute: AuthenticatedCompteRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ConfirmationRoute: ConfirmationRoute,
+  InscriptionRoute: InscriptionRoute,
   JournalRoute: JournalRoute,
+  LoginRoute: LoginRoute,
+  MotDePasseOublieRoute: MotDePasseOublieRoute,
   PaiementRoute: PaiementRoute,
   PanierRoute: PanierRoute,
   RechercheRoute: RechercheRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   CSlugRoute: CSlugRoute,
   MarquesSlugRoute: MarquesSlugRoute,
   ProduitIdRoute: ProduitIdRoute,
