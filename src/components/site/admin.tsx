@@ -11,8 +11,10 @@ export function useModerate(table: "brands" | "products") {
     mutationFn: async (v: { key: string; status: ModerationStatus; reason?: string }) => {
       const patch: Record<string, unknown> = { status: v.status };
       if (table === "products") patch["rejection_reason"] = v.status === "rejected" ? v.reason?.trim() || null : null;
-      const q = supabase.from(table).update(patch as never);
-      const { error } = await (table === "brands" ? q.eq("slug", v.key) : q.eq("id", v.key));
+      const { error } =
+        table === "brands"
+          ? await supabase.from("brands").update(patch as never).eq("slug", v.key)
+          : await supabase.from("products").update(patch as never).eq("id", v.key);
       if (error) throw error;
     },
     onSuccess: (_d, v) => {
