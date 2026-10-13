@@ -16,27 +16,47 @@ export type Database = {
     Tables: {
       brands: {
         Row: {
+          commission_rate: number
           created_at: string
           description: string
           name: string
+          owner_id: string | null
           region: string
           slug: string
+          status: string
+          stripe_account_id: string | null
         }
         Insert: {
+          commission_rate?: number
           created_at?: string
           description?: string
           name: string
+          owner_id?: string | null
           region?: string
           slug: string
+          status?: string
+          stripe_account_id?: string | null
         }
         Update: {
+          commission_rate?: number
           created_at?: string
           description?: string
           name?: string
+          owner_id?: string | null
           region?: string
           slug?: string
+          status?: string
+          stripe_account_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "brands_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       categories: {
         Row: {
@@ -121,7 +141,9 @@ export type Database = {
           name: string
           price: number
           rating: number
+          rejection_reason: string | null
           reviews: number
+          status: string
           tagline: string
         }
         Insert: {
@@ -140,7 +162,9 @@ export type Database = {
           name: string
           price: number
           rating?: number
+          rejection_reason?: string | null
           reviews?: number
+          status?: string
           tagline?: string
         }
         Update: {
@@ -159,7 +183,9 @@ export type Database = {
           name?: string
           price?: number
           rating?: number
+          rejection_reason?: string | null
           reviews?: number
+          status?: string
           tagline?: string
         }
         Relationships: [
@@ -185,6 +211,7 @@ export type Database = {
           first_name: string
           id: string
           last_name: string
+          role: string
           updated_at: string
         }
         Insert: {
@@ -192,6 +219,7 @@ export type Database = {
           first_name?: string
           id: string
           last_name?: string
+          role?: string
           updated_at?: string
         }
         Update: {
@@ -199,6 +227,7 @@ export type Database = {
           first_name?: string
           id?: string
           last_name?: string
+          role?: string
           updated_at?: string
         }
         Relationships: []
