@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -36,4 +37,23 @@ export function authErrorFr(message: string) {
   if (m.includes("password should be")) return "Le mot de passe doit contenir au moins 6 caractères.";
   if (m.includes("provider is not enabled")) return "La connexion Google n'est pas encore activée.";
   return message;
+}
+
+export type Role = "customer" | "brand" | "admin";
+
+export async function fetchRole(userId: string): Promise<Role> {
+  const { data } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
+  return ((data as { role?: Role } | null)?.role ?? "customer") as Role;
+}
+
+/** Role of the signed-in user's profile (null while signed out). */
+export function useRole() {
+  const { user, ready } = useSession();
+  const q = useQuery({
+    queryKey: ["role", user?.id],
+    queryFn: () => fetchRole(user!.id),
+    enabled: !!user,
+  });
+  const role: Role | null = user ? (q.data ?? null) : null;
+  return { role, isAdmin: role === "admin", loading: !ready || (!!user && q.isLoading) };
 }
