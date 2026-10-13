@@ -16,3 +16,4 @@
 - Cart is client-side (localStorage) in `CartProvider`. Why: no accounts yet.
 - Auth uses Supabase Auth directly (external project); account routes live under `src/routes/_authenticated/` whose client-only gate redirects to `/login`. Why: user requirement, session lives in localStorage.
 - Orders of signed-in customers are inserted client-side into `orders` (RLS own-rows) via `recordOrder`. Why: history without a payment backend yet.
+- Admin role is read from `profiles.role` via `useRole()`; `/admin` subtree gates client-side, while the DB (RLS + `guard_moderation` trigger) is the real enforcement. Why: UI gate alone is bypassable.

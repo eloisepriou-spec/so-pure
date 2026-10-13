@@ -8,10 +8,11 @@ export const getCatalog = createServerFn({ method: "GET" }).handler(async () => 
   const sb = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
   const [c, b, p] = await Promise.all([
     sb.from("categories").select("slug,name,intro,position").order("position"),
-    sb.from("brands").select("slug,name,region,description").order("name"),
+    sb.from("brands").select("slug,name,region,description").eq("status", "approved").order("name"),
     sb
       .from("products")
       .select("id,name,brand_slug,category_slug,form,price,rating,reviews,image_key,gallery_keys,tagline,description,composition,dosage,is_new,best_seller")
+      .eq("status", "approved")
       .order("created_at"),
   ]);
   const err = c.error ?? b.error ?? p.error;
