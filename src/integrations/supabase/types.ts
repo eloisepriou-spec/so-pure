@@ -124,6 +124,47 @@ export type Database = {
         }
         Relationships: []
       }
+      product_scan_log: {
+        Row: {
+          cancelled_at: string | null
+          cancelled_by_admin: boolean
+          created_at: string
+          decision: string
+          id: string
+          product_id: string
+          reasons: string
+          scanner_version: string
+        }
+        Insert: {
+          cancelled_at?: string | null
+          cancelled_by_admin?: boolean
+          created_at?: string
+          decision: string
+          id?: string
+          product_id: string
+          reasons?: string
+          scanner_version?: string
+        }
+        Update: {
+          cancelled_at?: string | null
+          cancelled_by_admin?: boolean
+          created_at?: string
+          decision?: string
+          id?: string
+          product_id?: string
+          reasons?: string
+          scanner_version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_scan_log_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           best_seller: boolean
