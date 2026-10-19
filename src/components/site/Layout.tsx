@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useCart } from "@/lib/cart";
 import { useRole, useSession } from "@/lib/auth";
@@ -78,10 +78,22 @@ function CartIcons() {
 
 export function Header({ minimal = false }: { minimal?: boolean | undefined }) {
   const [q, setQ] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   return (
     <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur">
       <div className="container-page flex h-16 items-center justify-between gap-6">
+        {!minimal && (
+          <button
+            type="button"
+            aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted md:hidden"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        )}
         <Logo />
         {!minimal && (
           <form
@@ -124,6 +136,49 @@ export function Header({ minimal = false }: { minimal?: boolean | undefined }) {
             Journal
           </Link>
         </nav>
+      )}
+      {!minimal && mobileOpen && (
+        <div className="container-page border-t py-4 md:hidden">
+          <form
+            className="relative mb-4 block"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setMobileOpen(false);
+              navigate({ to: "/recherche", search: { q } });
+            }}
+          >
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              aria-label="Rechercher"
+              placeholder="Je cherche un complément, une marque..."
+              className="h-11 w-full rounded bg-card pl-10 pr-4 text-sm shadow-soft outline-none ring-1 ring-border placeholder:text-muted-foreground focus:ring-foreground"
+            />
+          </form>
+          <nav className="flex flex-col">
+            {MENU.map((m) => (
+              <Link
+                key={m.label}
+                to={m.to}
+                params={m.params as never}
+                onClick={() => setMobileOpen(false)}
+                className="border-b py-3 text-sm uppercase tracking-wider text-foreground/80 last:border-b-0 hover:text-foreground"
+                activeProps={{ className: "!text-foreground font-medium" }}
+              >
+                {m.label}
+              </Link>
+            ))}
+            <Link
+              to="/journal"
+              onClick={() => setMobileOpen(false)}
+              className="border-b py-3 font-serif text-sm italic text-foreground/80 last:border-b-0 hover:text-foreground"
+              activeProps={{ className: "!text-foreground" }}
+            >
+              Journal
+            </Link>
+          </nav>
+        </div>
       )}
     </header>
   );
