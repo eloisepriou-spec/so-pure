@@ -28,8 +28,9 @@ import { Route as MarquesIndexRouteImport } from './routes/marques.index'
 import { Route as MarquesSlugRouteImport } from './routes/marques.$slug'
 import { Route as ProduitIdRouteImport } from './routes/produit.$id'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminCommandesRouteImport } from './routes/_authenticated/admin/commandes'
+import { Route as AuthenticatedAdminJournalRouteImport } from './routes/_authenticated/admin/journal'
 import { Route as AuthenticatedAdminMarquesRouteImport } from './routes/_authenticated/admin/marques'
-import { Route as AuthenticatedAdminProduitsRouteImport } from './routes/_authenticated/admin/produits'
 import { Route as AuthenticatedMarqueIndexRouteImport } from './routes/_authenticated/marque/index'
 import { Route as AuthenticatedMarqueProduitsRouteImport } from './routes/_authenticated/marque/produits'
 import { Route as AuthenticatedMarqueProduitsIdRouteImport } from './routes/_authenticated/marque/produits.$id'
@@ -130,16 +131,22 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminCommandesRoute =
+  AuthenticatedAdminCommandesRouteImport.update({
+    id: '/commandes',
+    path: '/commandes',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminJournalRoute =
+  AuthenticatedAdminJournalRouteImport.update({
+    id: '/journal',
+    path: '/journal',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminMarquesRoute =
   AuthenticatedAdminMarquesRouteImport.update({
     id: '/marques',
     path: '/marques',
-    getParentRoute: () => AuthenticatedAdminRouteRoute,
-  } as any)
-const AuthenticatedAdminProduitsRoute =
-  AuthenticatedAdminProduitsRouteImport.update({
-    id: '/produits',
-    path: '/produits',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
 const AuthenticatedMarqueIndexRoute =
@@ -185,8 +192,9 @@ export interface FileRoutesByFullPath {
   '/marques/$slug': typeof MarquesSlugRoute
   '/produit/$id': typeof ProduitIdRoute
   '/marques/': typeof MarquesIndexRoute
+  '/admin/commandes': typeof AuthenticatedAdminCommandesRoute
+  '/admin/journal': typeof AuthenticatedAdminJournalRoute
   '/admin/marques': typeof AuthenticatedAdminMarquesRoute
-  '/admin/produits': typeof AuthenticatedAdminProduitsRoute
   '/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/marque/': typeof AuthenticatedMarqueIndexRoute
@@ -209,8 +217,9 @@ export interface FileRoutesByTo {
   '/marques/$slug': typeof MarquesSlugRoute
   '/produit/$id': typeof ProduitIdRoute
   '/marques': typeof MarquesIndexRoute
+  '/admin/commandes': typeof AuthenticatedAdminCommandesRoute
+  '/admin/journal': typeof AuthenticatedAdminJournalRoute
   '/admin/marques': typeof AuthenticatedAdminMarquesRoute
-  '/admin/produits': typeof AuthenticatedAdminProduitsRoute
   '/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/marque': typeof AuthenticatedMarqueIndexRoute
@@ -237,8 +246,9 @@ export interface FileRoutesById {
   '/marques/$slug': typeof MarquesSlugRoute
   '/produit/$id': typeof ProduitIdRoute
   '/marques/': typeof MarquesIndexRoute
+  '/_authenticated/admin/commandes': typeof AuthenticatedAdminCommandesRoute
+  '/_authenticated/admin/journal': typeof AuthenticatedAdminJournalRoute
   '/_authenticated/admin/marques': typeof AuthenticatedAdminMarquesRoute
-  '/_authenticated/admin/produits': typeof AuthenticatedAdminProduitsRoute
   '/_authenticated/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/marque/': typeof AuthenticatedMarqueIndexRoute
@@ -265,8 +275,9 @@ export interface FileRouteTypes {
     | '/marques/$slug'
     | '/produit/$id'
     | '/marques/'
+    | '/admin/commandes'
+    | '/admin/journal'
     | '/admin/marques'
-    | '/admin/produits'
     | '/marque/produits'
     | '/admin/'
     | '/marque/'
@@ -289,8 +300,9 @@ export interface FileRouteTypes {
     | '/marques/$slug'
     | '/produit/$id'
     | '/marques'
+    | '/admin/commandes'
+    | '/admin/journal'
     | '/admin/marques'
-    | '/admin/produits'
     | '/marque/produits'
     | '/admin'
     | '/marque'
@@ -316,8 +328,9 @@ export interface FileRouteTypes {
     | '/marques/$slug'
     | '/produit/$id'
     | '/marques/'
+    | '/_authenticated/admin/commandes'
+    | '/_authenticated/admin/journal'
     | '/_authenticated/admin/marques'
-    | '/_authenticated/admin/produits'
     | '/_authenticated/marque/produits'
     | '/_authenticated/admin/'
     | '/_authenticated/marque/'
@@ -478,18 +491,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/commandes': {
+      id: '/_authenticated/admin/commandes'
+      path: '/commandes'
+      fullPath: '/admin/commandes'
+      preLoaderRoute: typeof AuthenticatedAdminCommandesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/journal': {
+      id: '/_authenticated/admin/journal'
+      path: '/journal'
+      fullPath: '/admin/journal'
+      preLoaderRoute: typeof AuthenticatedAdminJournalRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/marques': {
       id: '/_authenticated/admin/marques'
       path: '/marques'
       fullPath: '/admin/marques'
       preLoaderRoute: typeof AuthenticatedAdminMarquesRouteImport
-      parentRoute: typeof AuthenticatedAdminRouteRoute
-    }
-    '/_authenticated/admin/produits': {
-      id: '/_authenticated/admin/produits'
-      path: '/produits'
-      fullPath: '/admin/produits'
-      preLoaderRoute: typeof AuthenticatedAdminProduitsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/_authenticated/marque/': {
@@ -524,15 +544,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminCommandesRoute: typeof AuthenticatedAdminCommandesRoute
+  AuthenticatedAdminJournalRoute: typeof AuthenticatedAdminJournalRoute
   AuthenticatedAdminMarquesRoute: typeof AuthenticatedAdminMarquesRoute
-  AuthenticatedAdminProduitsRoute: typeof AuthenticatedAdminProduitsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminCommandesRoute: AuthenticatedAdminCommandesRoute,
+    AuthenticatedAdminJournalRoute: AuthenticatedAdminJournalRoute,
     AuthenticatedAdminMarquesRoute: AuthenticatedAdminMarquesRoute,
-    AuthenticatedAdminProduitsRoute: AuthenticatedAdminProduitsRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 

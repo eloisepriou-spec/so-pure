@@ -11,28 +11,60 @@ export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
       { title: "Administration — So Pure" },
-      { name: "description", content: "Espace d'administration So Pure : validation des marques et produits." },
+      {
+        name: "description",
+        content: "Espace d'administration So Pure : marques, journal du scanner IA, commandes.",
+      },
       { property: "og:title", content: "Administration — So Pure" },
-      { property: "og:description", content: "Modération du catalogue So Pure." },
+      { property: "og:description", content: "Supervision de la marketplace So Pure." },
       { name: "robots", content: "noindex" },
     ],
   }),
   component: AdminLayout,
 });
 
-const tab = "border-b-2 border-transparent pb-2 text-sm text-muted-foreground hover:text-foreground";
+const tab =
+  "border-b-2 border-transparent pb-2 text-sm text-muted-foreground hover:text-foreground";
 
 function AdminLayout() {
   return (
     <PageShell>
       <div className="container-page py-10">
         <p className="micro-label text-muted-foreground">Administration</p>
-        <nav className="mt-4 flex gap-6 border-b">
-          <Link to="/admin" activeOptions={{ exact: true }} className={tab} activeProps={{ className: "!border-foreground !text-foreground font-medium" }}>Tableau de bord</Link>
-          <Link to="/admin/marques" className={tab} activeProps={{ className: "!border-foreground !text-foreground font-medium" }}>Marques</Link>
-          <Link to="/admin/produits" className={tab} activeProps={{ className: "!border-foreground !text-foreground font-medium" }}>Produits</Link>
+        <nav className="mt-4 flex gap-6 overflow-x-auto border-b">
+          <Link
+            to="/admin"
+            activeOptions={{ exact: true }}
+            className={tab}
+            activeProps={{ className: "!border-foreground !text-foreground font-medium" }}
+          >
+            Tableau de bord
+          </Link>
+          <Link
+            to="/admin/marques"
+            className={tab}
+            activeProps={{ className: "!border-foreground !text-foreground font-medium" }}
+          >
+            Marques
+          </Link>
+          <Link
+            to="/admin/journal"
+            className={tab}
+            activeProps={{ className: "!border-foreground !text-foreground font-medium" }}
+          >
+            Journal scanner IA
+          </Link>
+          <Link
+            to="/admin/commandes"
+            className={tab}
+            activeProps={{ className: "!border-foreground !text-foreground font-medium" }}
+          >
+            Commandes
+          </Link>
         </nav>
-        <div className="mt-8"><Outlet /></div>
+        <div className="mt-8">
+          <Outlet />
+        </div>
       </div>
     </PageShell>
   );
