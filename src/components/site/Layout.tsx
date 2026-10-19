@@ -26,15 +26,29 @@ export function Logo() {
 function CartIcons() {
   const { count } = useCart();
   const { user } = useSession();
-  const { isAdmin } = useRole();
+  const { isAdmin, role } = useRole();
   return (
     <div className="flex items-center gap-2">
       {isAdmin && (
-        <Link to="/admin" className="mr-1 text-xs uppercase tracking-wider text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+        <Link
+          to="/admin"
+          className="mr-1 text-xs uppercase tracking-wider text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
           Admin
         </Link>
       )}
-      <button aria-label="Favoris" className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted">
+      {role === "brand" && (
+        <Link
+          to="/marque"
+          className="mr-1 text-xs uppercase tracking-wider text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          Ma marque
+        </Link>
+      )}
+      <button
+        aria-label="Favoris"
+        className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted"
+      >
         <Heart className="h-5 w-5" />
       </button>
       <Link
@@ -44,7 +58,9 @@ function CartIcons() {
         className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted"
       >
         <User className="h-5 w-5" />
-        {user && <span className="absolute bottom-1.5 right-1.5 h-2 w-2 rounded-full bg-secondary ring-2 ring-background" />}
+        {user && (
+          <span className="absolute bottom-1.5 right-1.5 h-2 w-2 rounded-full bg-secondary ring-2 ring-background" />
+        )}
       </Link>
       <Link
         to="/panier"
@@ -114,9 +130,33 @@ export function Header({ minimal = false }: { minimal?: boolean | undefined }) {
 }
 
 const FOOTER = [
-  { title: "À propos & sélection", links: ["Notre Manifeste", "Charte de Pureté", "Laboratoires Partenaires", "Engagement Écologique"] },
-  { title: "Aide & contact", links: ["Centre d'Aide & FAQ", "Livraisons & Retours", "Consultation Naturopathe", "Contactez-nous"] },
-  { title: "Légal", links: ["Conditions Générales de Vente", "Mentions Légales", "Politique de Confidentialité", "Gestion des Cookies"] },
+  {
+    title: "À propos & sélection",
+    links: [
+      "Notre Manifeste",
+      "Charte de Pureté",
+      "Laboratoires Partenaires",
+      "Engagement Écologique",
+    ],
+  },
+  {
+    title: "Aide & contact",
+    links: [
+      "Centre d'Aide & FAQ",
+      "Livraisons & Retours",
+      "Consultation Naturopathe",
+      "Contactez-nous",
+    ],
+  },
+  {
+    title: "Légal",
+    links: [
+      "Conditions Générales de Vente",
+      "Mentions Légales",
+      "Politique de Confidentialité",
+      "Gestion des Cookies",
+    ],
+  },
 ];
 
 export function Footer() {
@@ -127,8 +167,8 @@ export function Footer() {
         <div>
           <Logo />
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Apothecary d'avant-garde. Une sélection rigoureuse de compléments purs, éthiques et traçables pour élever
-            votre équilibre biologique.
+            Apothecary d'avant-garde. Une sélection rigoureuse de compléments purs, éthiques et
+            traçables pour élever votre équilibre biologique.
           </p>
         </div>
         {FOOTER.map((c) => (
@@ -143,7 +183,9 @@ export function Footer() {
         ))}
         <div>
           <h3 className="micro-label mb-4">Réseaux & lettre</h3>
-          <p className="text-sm text-muted-foreground">Rejoignez notre cercle privé de veille nutritionnelle.</p>
+          <p className="text-sm text-muted-foreground">
+            Rejoignez notre cercle privé de veille nutritionnelle.
+          </p>
           {sent ? (
             <p className="mt-4 text-sm font-medium">Merci, vous êtes inscrit·e.</p>
           ) : (
@@ -180,7 +222,13 @@ export function Footer() {
   );
 }
 
-export function PageShell({ children, minimal }: { children: ReactNode; minimal?: boolean | undefined }) {
+export function PageShell({
+  children,
+  minimal,
+}: {
+  children: ReactNode;
+  minimal?: boolean | undefined;
+}) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header minimal={minimal} />
@@ -190,9 +238,16 @@ export function PageShell({ children, minimal }: { children: ReactNode; minimal?
   );
 }
 
-export function Crumbs({ items }: { items: { label: string; to?: string; params?: Record<string, string> }[] }) {
+export function Crumbs({
+  items,
+}: {
+  items: { label: string; to?: string; params?: Record<string, string> }[];
+}) {
   return (
-    <nav aria-label="Fil d'Ariane" className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+    <nav
+      aria-label="Fil d'Ariane"
+      className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
+    >
       <Link to="/" className="hover:text-foreground">
         Accueil
       </Link>

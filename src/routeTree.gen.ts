@@ -22,6 +22,7 @@ import { Route as RechercheRouteImport } from './routes/recherche'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedCompteRouteImport } from './routes/_authenticated/compte'
+import { Route as AuthenticatedMarqueRouteRouteImport } from './routes/_authenticated/marque/route'
 import { Route as CSlugRouteImport } from './routes/c.$slug'
 import { Route as MarquesIndexRouteImport } from './routes/marques.index'
 import { Route as MarquesSlugRouteImport } from './routes/marques.$slug'
@@ -29,6 +30,10 @@ import { Route as ProduitIdRouteImport } from './routes/produit.$id'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminMarquesRouteImport } from './routes/_authenticated/admin/marques'
 import { Route as AuthenticatedAdminProduitsRouteImport } from './routes/_authenticated/admin/produits'
+import { Route as AuthenticatedMarqueIndexRouteImport } from './routes/_authenticated/marque/index'
+import { Route as AuthenticatedMarqueProduitsRouteImport } from './routes/_authenticated/marque/produits'
+import { Route as AuthenticatedMarqueProduitsIdRouteImport } from './routes/_authenticated/marque/produits.$id'
+import { Route as AuthenticatedMarqueProduitsNouveauRouteImport } from './routes/_authenticated/marque/produits.nouveau'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +99,12 @@ const AuthenticatedCompteRoute = AuthenticatedCompteRouteImport.update({
   path: '/compte',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMarqueRouteRoute =
+  AuthenticatedMarqueRouteRouteImport.update({
+    id: '/marque',
+    path: '/marque',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const CSlugRoute = CSlugRouteImport.update({
   id: '/c/$slug',
   path: '/c/$slug',
@@ -131,6 +142,30 @@ const AuthenticatedAdminProduitsRoute =
     path: '/produits',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedMarqueIndexRoute =
+  AuthenticatedMarqueIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMarqueRouteRoute,
+  } as any)
+const AuthenticatedMarqueProduitsRoute =
+  AuthenticatedMarqueProduitsRouteImport.update({
+    id: '/produits',
+    path: '/produits',
+    getParentRoute: () => AuthenticatedMarqueRouteRoute,
+  } as any)
+const AuthenticatedMarqueProduitsIdRoute =
+  AuthenticatedMarqueProduitsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedMarqueProduitsRoute,
+  } as any)
+const AuthenticatedMarqueProduitsNouveauRoute =
+  AuthenticatedMarqueProduitsNouveauRouteImport.update({
+    id: '/nouveau',
+    path: '/nouveau',
+    getParentRoute: () => AuthenticatedMarqueProduitsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -144,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/recherche': typeof RechercheRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
+  '/marque': typeof AuthenticatedMarqueRouteRouteWithChildren
   '/compte': typeof AuthenticatedCompteRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
@@ -151,7 +187,11 @@ export interface FileRoutesByFullPath {
   '/marques/': typeof MarquesIndexRoute
   '/admin/marques': typeof AuthenticatedAdminMarquesRoute
   '/admin/produits': typeof AuthenticatedAdminProduitsRoute
+  '/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/marque/': typeof AuthenticatedMarqueIndexRoute
+  '/marque/produits/$id': typeof AuthenticatedMarqueProduitsIdRoute
+  '/marque/produits/nouveau': typeof AuthenticatedMarqueProduitsNouveauRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -171,7 +211,11 @@ export interface FileRoutesByTo {
   '/marques': typeof MarquesIndexRoute
   '/admin/marques': typeof AuthenticatedAdminMarquesRoute
   '/admin/produits': typeof AuthenticatedAdminProduitsRoute
+  '/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/marque': typeof AuthenticatedMarqueIndexRoute
+  '/marque/produits/$id': typeof AuthenticatedMarqueProduitsIdRoute
+  '/marque/produits/nouveau': typeof AuthenticatedMarqueProduitsNouveauRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -187,6 +231,7 @@ export interface FileRoutesById {
   '/recherche': typeof RechercheRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
+  '/_authenticated/marque': typeof AuthenticatedMarqueRouteRouteWithChildren
   '/_authenticated/compte': typeof AuthenticatedCompteRoute
   '/c/$slug': typeof CSlugRoute
   '/marques/$slug': typeof MarquesSlugRoute
@@ -194,7 +239,11 @@ export interface FileRoutesById {
   '/marques/': typeof MarquesIndexRoute
   '/_authenticated/admin/marques': typeof AuthenticatedAdminMarquesRoute
   '/_authenticated/admin/produits': typeof AuthenticatedAdminProduitsRoute
+  '/_authenticated/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/marque/': typeof AuthenticatedMarqueIndexRoute
+  '/_authenticated/marque/produits/$id': typeof AuthenticatedMarqueProduitsIdRoute
+  '/_authenticated/marque/produits/nouveau': typeof AuthenticatedMarqueProduitsNouveauRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -210,6 +259,7 @@ export interface FileRouteTypes {
     | '/recherche'
     | '/reset-password'
     | '/admin'
+    | '/marque'
     | '/compte'
     | '/c/$slug'
     | '/marques/$slug'
@@ -217,7 +267,11 @@ export interface FileRouteTypes {
     | '/marques/'
     | '/admin/marques'
     | '/admin/produits'
+    | '/marque/produits'
     | '/admin/'
+    | '/marque/'
+    | '/marque/produits/$id'
+    | '/marque/produits/nouveau'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -237,7 +291,11 @@ export interface FileRouteTypes {
     | '/marques'
     | '/admin/marques'
     | '/admin/produits'
+    | '/marque/produits'
     | '/admin'
+    | '/marque'
+    | '/marque/produits/$id'
+    | '/marque/produits/nouveau'
   id:
     | '__root__'
     | '/'
@@ -252,6 +310,7 @@ export interface FileRouteTypes {
     | '/recherche'
     | '/reset-password'
     | '/_authenticated/admin'
+    | '/_authenticated/marque'
     | '/_authenticated/compte'
     | '/c/$slug'
     | '/marques/$slug'
@@ -259,7 +318,11 @@ export interface FileRouteTypes {
     | '/marques/'
     | '/_authenticated/admin/marques'
     | '/_authenticated/admin/produits'
+    | '/_authenticated/marque/produits'
     | '/_authenticated/admin/'
+    | '/_authenticated/marque/'
+    | '/_authenticated/marque/produits/$id'
+    | '/_authenticated/marque/produits/nouveau'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -373,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCompteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/marque': {
+      id: '/_authenticated/marque'
+      path: '/marque'
+      fullPath: '/marque'
+      preLoaderRoute: typeof AuthenticatedMarqueRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/c/$slug': {
       id: '/c/$slug'
       path: '/c/$slug'
@@ -422,6 +492,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminProduitsRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/marque/': {
+      id: '/_authenticated/marque/'
+      path: '/'
+      fullPath: '/marque/'
+      preLoaderRoute: typeof AuthenticatedMarqueIndexRouteImport
+      parentRoute: typeof AuthenticatedMarqueRouteRoute
+    }
+    '/_authenticated/marque/produits': {
+      id: '/_authenticated/marque/produits'
+      path: '/produits'
+      fullPath: '/marque/produits'
+      preLoaderRoute: typeof AuthenticatedMarqueProduitsRouteImport
+      parentRoute: typeof AuthenticatedMarqueRouteRoute
+    }
+    '/_authenticated/marque/produits/$id': {
+      id: '/_authenticated/marque/produits/$id'
+      path: '/$id'
+      fullPath: '/marque/produits/$id'
+      preLoaderRoute: typeof AuthenticatedMarqueProduitsIdRouteImport
+      parentRoute: typeof AuthenticatedMarqueProduitsRoute
+    }
+    '/_authenticated/marque/produits/nouveau': {
+      id: '/_authenticated/marque/produits/nouveau'
+      path: '/nouveau'
+      fullPath: '/marque/produits/nouveau'
+      preLoaderRoute: typeof AuthenticatedMarqueProduitsNouveauRouteImport
+      parentRoute: typeof AuthenticatedMarqueProduitsRoute
+    }
   }
 }
 
@@ -443,13 +541,49 @@ const AuthenticatedAdminRouteRouteWithChildren =
     AuthenticatedAdminRouteRouteChildren,
   )
 
+interface AuthenticatedMarqueProduitsRouteChildren {
+  AuthenticatedMarqueProduitsIdRoute: typeof AuthenticatedMarqueProduitsIdRoute
+  AuthenticatedMarqueProduitsNouveauRoute: typeof AuthenticatedMarqueProduitsNouveauRoute
+}
+
+const AuthenticatedMarqueProduitsRouteChildren: AuthenticatedMarqueProduitsRouteChildren =
+  {
+    AuthenticatedMarqueProduitsIdRoute: AuthenticatedMarqueProduitsIdRoute,
+    AuthenticatedMarqueProduitsNouveauRoute:
+      AuthenticatedMarqueProduitsNouveauRoute,
+  }
+
+const AuthenticatedMarqueProduitsRouteWithChildren =
+  AuthenticatedMarqueProduitsRoute._addFileChildren(
+    AuthenticatedMarqueProduitsRouteChildren,
+  )
+
+interface AuthenticatedMarqueRouteRouteChildren {
+  AuthenticatedMarqueProduitsRoute: typeof AuthenticatedMarqueProduitsRouteWithChildren
+  AuthenticatedMarqueIndexRoute: typeof AuthenticatedMarqueIndexRoute
+}
+
+const AuthenticatedMarqueRouteRouteChildren: AuthenticatedMarqueRouteRouteChildren =
+  {
+    AuthenticatedMarqueProduitsRoute:
+      AuthenticatedMarqueProduitsRouteWithChildren,
+    AuthenticatedMarqueIndexRoute: AuthenticatedMarqueIndexRoute,
+  }
+
+const AuthenticatedMarqueRouteRouteWithChildren =
+  AuthenticatedMarqueRouteRoute._addFileChildren(
+    AuthenticatedMarqueRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
+  AuthenticatedMarqueRouteRoute: typeof AuthenticatedMarqueRouteRouteWithChildren
   AuthenticatedCompteRoute: typeof AuthenticatedCompteRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
+  AuthenticatedMarqueRouteRoute: AuthenticatedMarqueRouteRouteWithChildren,
   AuthenticatedCompteRoute: AuthenticatedCompteRoute,
 }
 
