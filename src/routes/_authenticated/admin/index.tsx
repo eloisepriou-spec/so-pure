@@ -1,11 +1,34 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/lib/catalog";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminHome,
 });
+
+/** Écoute les changements live sur orders/products/brands et invalide le cache du dashboard. */
+function useDashboardRealtime() {
+  const qc = useQueryClient();
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    const invalidate = () => qc.invalidateQueries({ queryKey: ["admin"] });
+    const channel = supabase
+      .channel("admin-dashboard")
+      .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, invalidate)
+      .on("postgres_changes", { event: "*", schema: "public", table: "products" }, invalidate)
+      .on("postgres_changes", { event: "*", schema: "public", table: "brands" }, invalidate)
+      .subscribe((status) => setLive(status === "SUBSCRIBED"));
+
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [qc]);
+
+  return live;
+}
 
 async function countWhere(table: "brands" | "products", column: string, value: string) {
   const { count } = await supabase
@@ -24,6 +47,7 @@ async function revenueTotals() {
 }
 
 function AdminHome() {
+  const live = useDashboardRealtime();
   const activeBrands = useQuery({
     queryKey: ["admin", "count", "brands", "approved"],
     queryFn: () => countWhere("brands", "status", "approved"),
@@ -51,6 +75,12 @@ function AdminHome() {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <span
+          className={`h-2 w-2 rounded-full ${live ? "bg-emerald-500" : "bg-muted-foreground/40"}`}
+        />
+        {live ? "Données en direct" : "Connexion en direct…"}
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c, i) => (
           <Link
