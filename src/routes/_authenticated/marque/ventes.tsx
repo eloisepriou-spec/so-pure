@@ -33,31 +33,22 @@ function BrandSales() {
         .order("created_at", { ascending: false });
       if (error) throw error;
 
-      const rate = brand.data!.commission_rate;
       const rows = (data as unknown as OrderRow[])
         .map((o) => {
           const mine = o.lines.filter((l) => l.brand === brand.data!.name);
           if (!mine.length) return null;
           const amount = mine.reduce((sum, l) => sum + l.price * l.qty, 0);
-          const nBrands = new Set(o.lines.map((l) => l.brand)).size || 1;
-          const shippingShare = o.shipping / nBrands;
-          const commission = (amount * rate) / 100;
           return {
             id: o.id,
             ref: o.ref,
             created_at: o.created_at,
             items: mine,
             amount,
-            commission,
-            reversed: amount - commission + shippingShare,
           };
         })
         .filter((r): r is NonNullable<typeof r> => r !== null);
 
-      const totals = rows.reduce(
-        (acc, r) => ({ amount: acc.amount + r.amount, reversed: acc.reversed + r.reversed }),
-        { amount: 0, reversed: 0 },
-      );
+      const totals = rows.reduce((sum, r) => sum + r.amount, 0);
 
       return { rows, totals };
     },
@@ -67,8 +58,7 @@ function BrandSales() {
     <div>
       <h1 className="font-serif text-3xl">Mes ventes</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Récapitulatif des commandes contenant vos produits, avec la part qui vous revient une fois
-        la commission de la plateforme déduite.
+        Récapitulatif des commandes contenant vos produits.
       </p>
 
       {q.isLoading ? (
@@ -79,15 +69,9 @@ function BrandSales() {
         </div>
       ) : (
         <>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border bg-card p-6">
-              <p className="micro-label text-muted-foreground">Total vendu</p>
-              <p className="mt-2 font-serif text-3xl">{formatPrice(q.data.totals.amount)}</p>
-            </div>
-            <div className="rounded-xl border bg-primary/5 p-6">
-              <p className="micro-label text-muted-foreground">Total à vous reverser</p>
-              <p className="mt-2 font-serif text-3xl">{formatPrice(q.data.totals.reversed)}</p>
-            </div>
+          <div className="mt-8 rounded-xl border bg-card p-6">
+            <p className="micro-label text-muted-foreground">Total vendu</p>
+            <p className="mt-2 font-serif text-3xl">{formatPrice(q.data.totals)}</p>
           </div>
 
           <ul className="mt-6 space-y-4">
@@ -104,7 +88,7 @@ function BrandSales() {
                       })}
                     </p>
                   </div>
-                  <p className="font-semibold">{formatPrice(r.reversed)} à reverser</p>
+                  <p className="font-semibold">{formatPrice(r.amount)}</p>
                 </div>
                 <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
                   {r.items.map((l, i) => (
