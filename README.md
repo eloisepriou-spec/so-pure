@@ -1,24 +1,50 @@
 # So Pure
 
-Implement exactly the screenshot and nothing else
+Marketplace curatée de compléments alimentaires bio et 100 % made in France. So Pure sélectionne et valide chaque produit un par un auprès de marques indépendantes, et guide les clients par besoin (sommeil, digestion, énergie, santé féminine, longévité) plutôt que par simple catégorie.
 
-This project was built with [Lovable](https://lovable.dev).
+Projet fil rouge réalisé dans le cadre de la formation Vibe Coding (bootcamp Lion, certification RNCP41143 « Concepteur de solutions no code »).
 
-## Build with Lovable
+## Fonctionnalités principales
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/3717247b-3a33-48e5-9474-33f69842931a).
+- **Catalogue et recherche par besoin** : navigation par besoin de santé plutôt que par catégorie produit classique
+- **Panier et paiement multi-marques** : une commande peut regrouper des produits de plusieurs marques, avec répartition automatique de la commission et des frais de livraison
+- **Espace marque** : chaque marque gère son profil et ses produits, soumis automatiquement au scanner IA avant publication
+- **Scanner IA des produits** : agent (Claude Cowork) qui approuve ou rejette automatiquement chaque produit soumis, selon les critères de la charte So Pure
+- **Espace admin** : gestion des marques et commissions, journal des décisions du scanner IA, suivi des commandes, tableau de bord en temps réel (Supabase Realtime)
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Stack technique
 
-## Development
+- **Frontend** : React, TanStack Start (SSR) + TanStack Router, TanStack Query, Tailwind CSS, Radix UI
+- **Backend / données** : Supabase (PostgreSQL, Auth, Row Level Security, Realtime)
+- **Automatisation / IA** : Claude Cowork (scanner IA des produits)
+- **Déploiement** : Vercel
+- **Construit avec** : [Lovable](https://lovable.dev), Cursor
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Développement en local
+
+Prérequis : Node.js et npm ([installation via nvm](https://github.com/nvm-sh/nvm#installing-and-updating)).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone https://github.com/eloisepriou-spec/so-pure.git
+cd so-pure
+npm install
 npm run dev
 ```
+
+L'application nécessite les variables d'environnement d'un projet Supabase (voir `.env.example` si présent, ou demander l'accès au projet Supabase So Pure).
+
+```sh
+npm run build   # build de production
+npm run test    # tests
+```
+
+## Sécurité
+
+- Authentification via Supabase Auth
+- Row Level Security activée sur toutes les tables sensibles
+- Clés API gérées via variables d'environnement, jamais commitées en clair
+- Audit de sécurité réalisé en semaine 5 (voir documentation Notion du projet)
+
+## Licence
+
+Projet pédagogique réalisé dans le cadre d'une formation certifiante. Tous droits réservés.
