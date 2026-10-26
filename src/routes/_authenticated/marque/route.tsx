@@ -74,6 +74,13 @@ function BrandLayout() {
               >
                 Mes produits
               </Link>
+              <Link
+                to="/marque/ventes"
+                className={tab}
+                activeProps={{ className: "!border-foreground !text-foreground font-medium" }}
+              >
+                Mes ventes
+              </Link>
             </nav>
             <div className="mt-8">
               <Outlet />
