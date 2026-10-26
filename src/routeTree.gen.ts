@@ -33,6 +33,7 @@ import { Route as AuthenticatedAdminJournalRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminMarquesRouteImport } from './routes/_authenticated/admin/marques'
 import { Route as AuthenticatedMarqueIndexRouteImport } from './routes/_authenticated/marque/index'
 import { Route as AuthenticatedMarqueProduitsRouteImport } from './routes/_authenticated/marque/produits'
+import { Route as AuthenticatedMarqueProduitsIndexRouteImport } from './routes/_authenticated/marque/produits.index'
 import { Route as AuthenticatedMarqueProduitsIdRouteImport } from './routes/_authenticated/marque/produits.$id'
 import { Route as AuthenticatedMarqueProduitsNouveauRouteImport } from './routes/_authenticated/marque/produits.nouveau'
 
@@ -161,6 +162,12 @@ const AuthenticatedMarqueProduitsRoute =
     path: '/produits',
     getParentRoute: () => AuthenticatedMarqueRouteRoute,
   } as any)
+const AuthenticatedMarqueProduitsIndexRoute =
+  AuthenticatedMarqueProduitsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMarqueProduitsRoute,
+  } as any)
 const AuthenticatedMarqueProduitsIdRoute =
   AuthenticatedMarqueProduitsIdRouteImport.update({
     id: '/$id',
@@ -200,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/marque/': typeof AuthenticatedMarqueIndexRoute
   '/marque/produits/$id': typeof AuthenticatedMarqueProduitsIdRoute
   '/marque/produits/nouveau': typeof AuthenticatedMarqueProduitsNouveauRoute
+  '/marque/produits/': typeof AuthenticatedMarqueProduitsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -220,11 +228,11 @@ export interface FileRoutesByTo {
   '/admin/commandes': typeof AuthenticatedAdminCommandesRoute
   '/admin/journal': typeof AuthenticatedAdminJournalRoute
   '/admin/marques': typeof AuthenticatedAdminMarquesRoute
-  '/marque/produits': typeof AuthenticatedMarqueProduitsRouteWithChildren
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/marque': typeof AuthenticatedMarqueIndexRoute
   '/marque/produits/$id': typeof AuthenticatedMarqueProduitsIdRoute
   '/marque/produits/nouveau': typeof AuthenticatedMarqueProduitsNouveauRoute
+  '/marque/produits': typeof AuthenticatedMarqueProduitsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/_authenticated/marque/': typeof AuthenticatedMarqueIndexRoute
   '/_authenticated/marque/produits/$id': typeof AuthenticatedMarqueProduitsIdRoute
   '/_authenticated/marque/produits/nouveau': typeof AuthenticatedMarqueProduitsNouveauRoute
+  '/_authenticated/marque/produits/': typeof AuthenticatedMarqueProduitsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -283,6 +292,7 @@ export interface FileRouteTypes {
     | '/marque/'
     | '/marque/produits/$id'
     | '/marque/produits/nouveau'
+    | '/marque/produits/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -303,11 +313,11 @@ export interface FileRouteTypes {
     | '/admin/commandes'
     | '/admin/journal'
     | '/admin/marques'
-    | '/marque/produits'
     | '/admin'
     | '/marque'
     | '/marque/produits/$id'
     | '/marque/produits/nouveau'
+    | '/marque/produits'
   id:
     | '__root__'
     | '/'
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/_authenticated/marque/'
     | '/_authenticated/marque/produits/$id'
     | '/_authenticated/marque/produits/nouveau'
+    | '/_authenticated/marque/produits/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -526,6 +537,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMarqueProduitsRouteImport
       parentRoute: typeof AuthenticatedMarqueRouteRoute
     }
+    '/_authenticated/marque/produits/': {
+      id: '/_authenticated/marque/produits/'
+      path: '/'
+      fullPath: '/marque/produits/'
+      preLoaderRoute: typeof AuthenticatedMarqueProduitsIndexRouteImport
+      parentRoute: typeof AuthenticatedMarqueProduitsRoute
+    }
     '/_authenticated/marque/produits/$id': {
       id: '/_authenticated/marque/produits/$id'
       path: '/$id'
@@ -566,6 +584,7 @@ const AuthenticatedAdminRouteRouteWithChildren =
 interface AuthenticatedMarqueProduitsRouteChildren {
   AuthenticatedMarqueProduitsIdRoute: typeof AuthenticatedMarqueProduitsIdRoute
   AuthenticatedMarqueProduitsNouveauRoute: typeof AuthenticatedMarqueProduitsNouveauRoute
+  AuthenticatedMarqueProduitsIndexRoute: typeof AuthenticatedMarqueProduitsIndexRoute
 }
 
 const AuthenticatedMarqueProduitsRouteChildren: AuthenticatedMarqueProduitsRouteChildren =
@@ -573,6 +592,8 @@ const AuthenticatedMarqueProduitsRouteChildren: AuthenticatedMarqueProduitsRoute
     AuthenticatedMarqueProduitsIdRoute: AuthenticatedMarqueProduitsIdRoute,
     AuthenticatedMarqueProduitsNouveauRoute:
       AuthenticatedMarqueProduitsNouveauRoute,
+    AuthenticatedMarqueProduitsIndexRoute:
+      AuthenticatedMarqueProduitsIndexRoute,
   }
 
 const AuthenticatedMarqueProduitsRouteWithChildren =
